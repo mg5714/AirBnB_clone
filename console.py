@@ -8,7 +8,7 @@ from models import storage
 from models.user import User
 from models.state import State
 from models.city import City
-from models.Place import Place
+from models.place import Place
 from models.amenity import Amenity
 from models.review import Review
 
@@ -16,7 +16,14 @@ from models.review import Review
 class HBNBCommand(cmd.Cmd):
     """define console class"""
     prompt = "(hbnb) "
-    _classes = ["BaseModel", "User"]
+    _classes = ["BaseModel",
+            "User",
+            "State",
+            "City",
+            "Place",
+            "Amenity",
+            "Review"
+            ]
 
     def do_quit(self, arg):
         """Quit command to exit the program"""
@@ -56,10 +63,10 @@ class HBNBCommand(cmd.Cmd):
             print("** instance id missing **")
             return
         obj_key = "{}.{}".format(args[0], args[1])
-        if obj_key not in storage.all()[args[0]]:
+        if obj_key not in storage.all():
             print("** no instance found **")
             return
-        print(storage.all()[args[0]][obj_key])
+        print(storage.all()[obj_key])
 
     def do_destroy(self, arg):
         """Delete an instance based on the class name and id."""
@@ -74,10 +81,10 @@ class HBNBCommand(cmd.Cmd):
             print("** instance id missing **")
             return
         obj_key = "{}.{}".format(args[0], args[1])
-        if obj_key not in storage.all()[args[0]]:
+        if obj_key not in storage.all():
             print("** no instance found **")
             return
-        del storage.all()[args[0]][obj_key]
+        del storage.all()[obj_key]
         storage.save()
 
     def do_all(self, arg):
@@ -92,7 +99,7 @@ class HBNBCommand(cmd.Cmd):
             if args[0] not in self._classes:
                 print("** class doesn't exist **")
                 return
-            for obj_key, obj in storage.all()[args[0]].items():
+            for obj_key, obj in storage.all().items():
                 objs.append(str(obj))
         print(objs)
 
@@ -109,7 +116,7 @@ class HBNBCommand(cmd.Cmd):
             print("** instance id missing **")
             return
         obj_key = "{}.{}".format(args[0], args[1])
-        if obj_key not in storage.all()[args[0]]:
+        if obj_key not in storage.all():
             print("** no instance found **")
             return
         if len(args) < 3:
@@ -118,7 +125,7 @@ class HBNBCommand(cmd.Cmd):
         if len(args) < 4:
             print("** value missing **")
             return
-        obj = storage.all()[args[0]][obj_key]
+        obj = storage.all()[obj_key]
         setattr(obj, args[2], args[3].strip('"'))
         obj.save()
 
