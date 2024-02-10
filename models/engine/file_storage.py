@@ -5,6 +5,7 @@ from os import path
 from models.base_model import BaseModel
 from models.user import User
 
+
 class FileStorage:
     __file_path = "file.json"
     __objects = {"user": {}}
@@ -36,12 +37,16 @@ class FileStorage:
                     data = json.load(file)
                     for key, value in data.items():
                         class_name, obj_id = key.split('.')
-                        module = __import__("models." + class_name.lower(), fromlist=[class_name])
+                        module = __import__(
+                                "models." + class_name.lower(),
+                                fromlist=[class_name]
+                                )
                         class_ = getattr(module, class_name)
                         obj = class_(**value)
                         FileStorage.__objects[key] = obj
                 except Exception:
                     pass
+
 
 storage = FileStorage()
 storage.reload()

@@ -4,6 +4,7 @@ import uuid
 from datetime import datetime
 import models
 
+
 class BaseModel:
     def __init__(self, *args, **kwargs):
         """Initialize basemodel instance"""
@@ -39,6 +40,7 @@ class BaseModel:
         class_name = self.__class__.__name__
         return "[{}] ({}) {}".format(class_name, self.id, self.__dict__)
 
+
 if __name__ == "__main__":
     my_model = BaseModel()
     my_model.name = "My First Model"
@@ -50,4 +52,6 @@ if __name__ == "__main__":
     print(my_model_json)
     print("JSON of my_model:")
     for key in my_model_json.keys():
-        print("\t{}: ({}) - {}".format(key, type(my_model_json[key]), my_model_json[key]))
+        print("\t{}: ({}) - {}".format(
+            key, type(my_model_json[key]), my_model_json[key]
+            ))

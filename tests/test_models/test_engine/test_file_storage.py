@@ -7,12 +7,13 @@ import models
 from models.base_model import BaseModel
 from models.engine.file_storage import FileStorage
 
+
 class TestFileStorage(unittest.TestCase):
 
     def setUp(self):
         """Reset FileStorage before each test."""
         FileStorage._FileStorage__objects = {}
-        
+
     @classmethod
     def tearDownClass(cls):
         """Clean up files created during tests."""
@@ -36,7 +37,9 @@ class TestFileStorage(unittest.TestCase):
         storage.new(obj)
         storage.save()
         key = "{}.{}".format(obj.__class__.__name__, obj.id)
-        with open(FileStorage._FileStorage__file_path, 'r', encoding="utf-8") as file:
+        with open(
+                FileStorage._FileStorage__file_path, 'r', encoding="utf-8"
+                ) as file:
             data = json.load(file)
             self.assertIn(key, data)
 
@@ -50,7 +53,9 @@ class TestFileStorage(unittest.TestCase):
     def test_reload_with_data(self):
         obj = BaseModel()
         obj_key = "{}.{}".format(obj.__class__.__name__, obj.id)
-        with open(FileStorage._FileStorage__file_path, 'w', encoding="utf-8") as file:
+        with open(
+                FileStorage._FileStorage__file_path, 'w', encoding="utf-8"
+                ) as file:
             json.dump({obj_key: obj.to_dict()}, file)
         storage = FileStorage()
         storage.reload()
@@ -58,7 +63,9 @@ class TestFileStorage(unittest.TestCase):
 
     def test_reload_corrupted_data(self):
         corrupted_content = '{"corrupted}'
-        with open(FileStorage._FileStorage__file_path, 'w', encoding="utf-8") as file:
+        with open(
+                FileStorage._FileStorage__file_path, 'w', encoding="utf-8"
+                ) as file:
             file.write(corrupted_content)
         storage = FileStorage()
         with self.assertRaises(Exception):
@@ -74,6 +81,7 @@ class TestFileStorage(unittest.TestCase):
             storage = FileStorage()
             storage.reload()
             self.assertIn(obj_key, storage.all())
+
 
 if __name__ == '__main__':
     unittest.main()
