@@ -13,7 +13,7 @@ from models.review import Review
 
 class FileStorage:
     __file_path = "file.json"
-    __objects = {"user": {}}
+    __objects = {}
 
     def all(self):
         """Returns the dictionary __objects"""
@@ -46,11 +46,7 @@ class FileStorage:
                     data = json.load(file)
                     for key, value in data.items():
                         class_name, obj_id = key.split('.')
-                        module = __import__(
-                                "models." + class_name.lower(),
-                                fromlist=[class_name]
-                                )
-                        class_ = getattr(module, class_name)
+                        class_ = eval(class_name)
                         obj = class_(**value)
                         FileStorage.__objects[key] = obj
                 except Exception:
