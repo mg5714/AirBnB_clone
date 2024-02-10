@@ -1,0 +1,87 @@
+#!/usr/bin/python3
+"""Defines unittests for city"""
+
+import unittest
+from models.city import City
+from models.base_model import BaseModel
+
+
+class TestCity(unittest.TestCase):
+    """Unit tests covering all scenarios"""
+
+    def test_city_instantiation(self):
+        city = City()
+        self.assertIsInstance(city, City)
+
+    def test_city_is_subclass(self):
+        city = City()
+        self.assertTrue(issubclass(city.__class__, BaseModel))
+
+    def test_city_attributes(self):
+        city = City()
+        self.assertTrue(hasattr(city, "id"))
+        self.assertTrue(hasattr(city, "created_at"))
+        self.assertTrue(hasattr(city, "updated_at"))
+        self.assertEqual(city.state_id, "")
+        self.assertEqual(city.name, "")
+
+    def test_city_id_is_str(self):
+        city = City()
+        self.assertIsInstance(city.id, str)
+
+    def test_city_state_id_is_str(self):
+        city = City()
+        self.assertIsInstance(city.state_id, str)
+
+    def test_city_name_is_str(self):
+        city = City()
+        self.assertIsInstance(city.name, str)
+
+    def test_different_cities_have_unique_ids(self):
+        city1 = City()
+        city2 = City()
+        self.assertNotEqual(city1.id, city2.id)
+
+    def test_city_created_updated_times(self):
+        city = City()
+        self.assertTrue(hasattr(city, "created_at"))
+        self.assertTrue(hasattr(city, "updated_at"))
+        self.assertNotEqual(city.created_at, city.updated_at)
+
+    def test_city_name_assignment(self):
+        city = City()
+        name = "San Francisco"
+        city.name = name
+        self.assertEqual(city.name, name)
+
+    def test_city_state_id_assignment(self):
+        city = City()
+        state_id = "CA"
+        city.state_id = state_id
+        self.assertEqual(city.state_id, state_id)
+
+    def test_city_str_representation(self):
+        city = City()
+        city.id = "123456"
+        expected_str = f"[City] (123456) {city.__dict__}"
+        self.assertEqual(city.__str__(), expected_str)
+
+    def test_city_empty_string_attributes(self):
+        city = City(state_id="", name="")
+        self.assertEqual(city.state_id, "")
+        self.assertEqual(city.name, "")
+
+    def test_city_none_assignments(self):
+        city = City()
+        with self.assertRaises(TypeError):
+            city.state_id = None
+            city.name = None
+
+    def test_city_incorrect_attributes(self):
+        city = City()
+        with self.assertRaises(AttributeError):
+            city.invalid_attribute = "Invalid"
+
+
+if __name__ == '__main__':
+    unittest.main()

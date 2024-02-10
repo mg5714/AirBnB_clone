@@ -1,4 +1,5 @@
-#!/usr/bin/python1
+#!/usr/bin/python3
+"""class for test """
 
 import os
 import models
