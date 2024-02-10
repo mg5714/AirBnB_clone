@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 """Defines the FileStorage class."""
+
 import json
 from os import path
 from models.base_model import BaseModel
@@ -12,6 +13,8 @@ from models.review import Review
 
 
 class FileStorage:
+    """filestorage class"""
+
     __file_path = "file.json"
     __objects = {}
 
@@ -30,7 +33,8 @@ class FileStorage:
         serialized_objects = {}
 
         for key, value in fo.items():
-            if hasattr(value, 'to_dict') and callable(getattr(value, 'to_dict')):
+            if hasattr(value, 'to_dict') and callable(
+                    getattr(value, 'to_dict')):
                 serialized_objects[key] = value.to_dict()
             else:
                 serialized_objects[key] = value

@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+"""define BaseModel class"""
 
 import uuid
 from datetime import datetime
@@ -6,6 +7,8 @@ import models
 
 
 class BaseModel:
+    """Initialize functions for class"""
+
     def __init__(self, *args, **kwargs):
         """Initialize basemodel instance"""
         self.id = str(uuid.uuid4())
