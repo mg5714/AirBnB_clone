@@ -46,7 +46,7 @@ class HBNBCommand(cmd.Cmd):
             print("** class name missing **")
             return
         try:
-            obj = eval(arg[0])()
+            obj = eval(arg)()
             storage.save()
             print(obj.id)
         except NameError:
