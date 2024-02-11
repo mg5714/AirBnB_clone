@@ -17,6 +17,51 @@ class TestConsole(unittest.TestCase):
     def tearDown(self):
         pass
 
+    def test_quit_command(self):
+        with patch('sys.stdout', new=StringIO()) as output:
+            self.assertTrue(self.console.onecmd("quit"))
+
+    def test_quit_command(self):
+        with patch('sys.stdout', new=StringIO()) as output:
+            self.assertTrue(self.console.onecmd("quit"))
+
+    def test_eof_command(self):
+        with patch('sys.stdout', new=StringIO()) as output:
+            self.assertTrue(self.console.onecmd("EOF"))
+
+    def test_emptyline(self):
+        with patch('sys.stdout', new=StringIO()) as output:
+            self.console.onecmd("")
+            self.assertEqual(output.getvalue(), "")
+
+    def test_invalid_command(self):
+        with patch('sys.stdout', new=StringIO()) as output:
+            self.assertFalse(self.console.onecmd("invalid_command"))
+            self.assertIn(
+                    "*** Unknown syntax: invalid_command",
+                    output.getvalue().strip())
+
+    def test_invalid_command(self):
+        with patch('sys.stdout', new=StringIO()) as output:
+            self.assertFalse(self.console.onecmd("invalid_command"))
+            self.assertIn(
+                    "*** Unknown syntax: invalid_command",
+                    output.getvalue().strip())
+
+    def test_count_command(self):
+        with patch('sys.stdout', new=StringIO()) as output:
+            self.console.onecmd("create BaseModel")
+            self.console.onecmd("create BaseModel")
+            self.console.onecmd("create User")
+            self.console.onecmd("count BaseModel")
+
+    def test_count_invalid_class_name(self):
+        with patch('sys.stdout', new=StringIO()) as output:
+            self.assertFalse(self.console.onecmd("count InvalidClassName"))
+            self.assertIn(
+                    "** class doesn't exist **",
+                    output.getvalue().strip())
+
     def test_create(self):
         with patch('sys.stdout', new=StringIO()) as fake_out:
             self.console.onecmd("create BaseModel")
