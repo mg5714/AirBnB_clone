@@ -177,9 +177,7 @@ class HBNBCommand(cmd.Cmd):
         if len(args) < 3:
             print("** attribute name missing **")
             return
-        if len(args) < 4:
-            print("** value missing **")
-            return
+
         try:
             dictionary = eval(' '.join(args[2:]))
             if not isinstance(dictionary, dict):
