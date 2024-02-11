@@ -177,17 +177,11 @@ class HBNBCommand(cmd.Cmd):
         if len(args) < 3:
             print("** attribute name missing **")
             return
-
-        try:
-            dictionary = eval(' '.join(args[2:]))
-            if not isinstance(dictionary, dict):
-                raise ValueError
-        except (NameError, ValueError):
-            print("** invalid dictionary **")
+        if len(args) < 4:
+            print("** value missing **")
             return
         obj = storage.all()[obj_key]
-        for key, value in dictionary.items():
-            setattr(obj, key, value)
+        setattr(obj, args[2], args[3].strip('"'))
         obj.save()
 
 
