@@ -58,17 +58,17 @@ class HBNBCommand(cmd.Cmd):
         if not args:
             print("** class name missing **")
             return
-        if args[0] not in self._classes:
+        elif args[0] not in self._classes:
             print("** class doesn't exist **")
             return
-        if len(args) < 2:
+        elif len(args) < 2:
             print("** instance id missing **")
             return
         obj_key = "{}.{}".format(args[0], args[1])
-        if obj_key not in storage.all():
+        if obj_key in storage.all():
+            print(storage.all()[obj_key])
+        else:
             print("** no instance found **")
-            return
-        print(storage.all()[obj_key])
 
     def do_destroy(self, arg):
         """Delete an instance based on the class name and id."""
@@ -107,10 +107,20 @@ class HBNBCommand(cmd.Cmd):
 
     def default(self, arg):
         """default model"""
-        argl = arg.split('.')
-        cls_name = argl[0]
-        command = argl[1].split('(')
-        method = command[0]
+        arg_parts = arg.split('.')
+
+        if len(arg_parts) != 2:
+            print("*** Unknown syntax: {}".format(arg))
+            return False
+
+        cls_name, method_with_args = arg_parts
+
+        if '(' not in method_with_args or ')' not in method_with_args:
+            print("*** Unknown syntax: {}".format(arg))
+            return False
+
+        method, argx = method_with_args.split('(')
+        argx = argx.split(')')[0]
 
         argdict = {
                 'all': self.do_all,
@@ -120,7 +130,7 @@ class HBNBCommand(cmd.Cmd):
                 'count': self.do_count
                 }
         if method in argdict.keys():
-            return argdict[method]("{} {}".format(cls_name, ''))
+            return argdict[method]("{} {}".format(cls_name, argx))
 
         print("*** Unknown syntax: {}".format(arg))
         return False
