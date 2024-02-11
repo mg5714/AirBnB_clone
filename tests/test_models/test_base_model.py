@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+"""define class"""
 
 import unittest
 from models.base_model import BaseModel
@@ -6,6 +7,8 @@ from datetime import datetime
 
 
 class TestBaseModel(unittest.TestCase):
+    """unit test for testing basemodel"""
+
     def test_init(self):
         """Set up test environment"""
         my_model = BaseModel()
