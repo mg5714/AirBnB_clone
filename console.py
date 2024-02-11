@@ -121,6 +121,7 @@ class HBNBCommand(cmd.Cmd):
 
         method, argx = method_with_args.split('(')
         argx = argx.split(')')[0]
+        all_args = argx.split(',')
 
         argdict = {
                 'all': self.do_all,
@@ -130,7 +131,14 @@ class HBNBCommand(cmd.Cmd):
                 'count': self.do_count
                 }
         if method in argdict.keys():
-            return argdict[method]("{} {}".format(cls_name, argx))
+            if method != "update":
+                return argdict[method]("{} {}".format(cls_name, argx))
+            else:
+                obj_id = all_args[0]
+                attr_name = all_args[1]
+                attr_value = all_args[2]
+                return argdict[method]("{} {} {} {}".format(
+                    cls_name, obj_id, attr_name, attr_value))
 
         print("*** Unknown syntax: {}".format(arg))
         return False
