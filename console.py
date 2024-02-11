@@ -105,6 +105,41 @@ class HBNBCommand(cmd.Cmd):
                 objs.append(str(obj))
         print(objs)
 
+    def default(self, arg):
+        """default model"""
+        argl = arg.split('.')
+        cls_name = argl[0]
+        command = argl[1].split('(')
+        method = command[0]
+
+        argdict = {
+                'all': self.do_all,
+                'show': self.do_show,
+                'destroy': self.do_destroy,
+                'update': self.do_update,
+                'count': self.do_count
+                }
+        if method in argdict.keys():
+            return argdict[method]("{} {}".format(cls_name, ''))
+
+        print("*** Unknown syntax: {}".format(arg))
+        return False
+
+    def do_count(self, arg):
+        """Count instances of a class."""
+        args = arg.split()
+        if not args:
+            print("** class name missing **")
+            return
+        if args[0] not in self._classes:
+            print("** class doesn't exist **")
+            return
+        count = 0
+        for obj in storage.all().values():
+            if type(obj).__name__ == args[0]:
+                count += 1
+        print(count)
+
     def do_update(self, arg):
         """Update an instance based on the class name and id."""
         args = arg.split()
