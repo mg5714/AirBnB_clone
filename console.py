@@ -180,8 +180,16 @@ class HBNBCommand(cmd.Cmd):
         if len(args) < 4:
             print("** value missing **")
             return
+        try:
+            dictionary = eval(' '.join(args[2:]))
+            if not isinstance(dictionary, dict):
+                raise ValueError
+        except (NameError, ValueError):
+            print("** invalid dictionary **")
+            return
         obj = storage.all()[obj_key]
-        setattr(obj, args[2], args[3].strip('"'))
+        for key, value in dictionary.items():
+            setattr(obj, key, value)
         obj.save()
 
 
