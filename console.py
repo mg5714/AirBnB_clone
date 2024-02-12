@@ -95,13 +95,14 @@ class HBNBCommand(cmd.Cmd):
         objs = []
         if not args:
             for obj_class in storage.all():
-                if obj_class in self._classes:
-                    objs.extend(str(obj) for obj in storage.all()[obj_class].values())
+                for obj_key, obj in storage.all()[obj_class].items():
+                    bjs.append(str(obj))
         else:
             if args[0] not in self._classes:
                 print("** class doesn't exist **")
                 return
-            objs.extend(str(obj) for obj in storage.all().values() if isinstance(obj, eval(args[0])))
+            for obj_key, obj in storage.all().items():
+                objs.append(str(obj))
         print(objs)
 
     def default(self, arg):
